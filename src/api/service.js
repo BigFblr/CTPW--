@@ -1,7 +1,7 @@
   const EmployeeAPI = {
     employees: [
-    { id: 1, name: "John Doe", job: "Developer" },
-    { id: 2, name: "Jane Smith", job: "Designer" }
+    { id: 1, name: "John Doe", job: "Developer", email: "tyt123@mail.ru" },
+    { id: 2, name: "Jane Smith", job: "Designer", email: "bobi37@gmail.com" }
   ],
   
 

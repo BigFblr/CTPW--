@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      <Form handleSubmit={addEmployee} inEmployee={{ name: "", job: "" }} />
+      <Form handleSubmit={addEmployee} inEmployee={{ name: "", job: "", email: ""}} />
       <Table employees={employees} delEmployee={delEmp} />
     </div>
   );

@@ -5,7 +5,9 @@ const Table = ({ employees, delEmployee }) => {
       <table>
         <thead>
           <tr>
+            <th>Id</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Job</th>
             <th>Remove</th>
           </tr>
@@ -14,7 +16,9 @@ const Table = ({ employees, delEmployee }) => {
           {employees.map((employee, index) => {
             return (
               <tr key={index}>
+                <th>{employee.id}</th>
                 <td>{employee.name}</td>
+                <td>{employee.email}</td>
                 <td>{employee.job}</td>
                 <td>
                   <button onClick={() => delEmployee(employee.id)}>Delete</button>

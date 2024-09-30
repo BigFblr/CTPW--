@@ -36,6 +36,16 @@ function Form({ handleSubmit, inEmployee }) {
           onChange={handleChange}
         />
       </div>
+      <div>
+        <label htmlFor="email">Email</label>
+        <input 
+        type="text"
+        id="email"
+        name="email"
+        value={employee.email}
+        onChange={handleChange}
+        />
+      </div>
       <button type="submit">Add Employee</button>
     </form>
   );
