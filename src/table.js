@@ -1,34 +1,37 @@
 import React from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Paper } from '@material-ui/core';
 
-const Table = ({ employees, delEmployee }) => {
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Job</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee, index) => {
-            return (
-              <tr key={index}>
-                <th>{employee.id}</th>
-                <td>{employee.name}</td>
-                <td>{employee.email}</td>
-                <td>{employee.job}</td>
-                <td>
-                  <button onClick={() => delEmployee(employee.id)}>Delete</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    );
-  };
-  
-  export default Table;
+const MUITable = ({ employees, delEmployee }) => {
+  return (
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Id</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Job</TableCell>
+            <TableCell>Remove</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {employees.map((employee) => (
+            <TableRow key={employee.id}>
+              <TableCell>{employee.id}</TableCell>
+              <TableCell>{employee.name}</TableCell>
+              <TableCell>{employee.email}</TableCell>
+              <TableCell>{employee.job}</TableCell>
+              <TableCell>
+                <Button variant="contained" color="secondary" onClick={() => delEmployee(employee.id)}>
+                  Delete
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
+export default MUITable;
