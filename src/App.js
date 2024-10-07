@@ -3,12 +3,16 @@ import EmployeeAPI from "./api/service.js";
 import Table from "./Table";
 import Form from "./Form";
 import { useState } from "react";
+import AuthorizationPage from "./login"
 
 const initialEmployees = EmployeeAPI.all();
 
 function App() {
+  return (
+    <AuthorizationPage />
+  );
   const [employees, setEmployees] = useState(initialEmployees);
-
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const delEmp = (id) => {
     if (EmployeeAPI.delete(id)) {
       setEmployees(employees.filter((employee) => employee.id !== id));
