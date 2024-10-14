@@ -1,16 +1,22 @@
-// AuthorizationPage.js
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { TextField, Button, Grid, Typography } from '@material-ui/core';
 
-const AuthorizationPage = () => {
+function Login({ setAuth }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Here you can add your authorization logic
-    console.log(`Username: ${username}, Password: ${password}`);
-  };
+
+  if (username === "admin" && password === "password") {
+    setAuth(true);
+    navigate("/");
+  } else {
+    alert("Неверные данные для входа");
+  }
+};
 
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column" sx={{ height: '100vh' }}>
@@ -42,4 +48,4 @@ const AuthorizationPage = () => {
   );
 };
 
-export default AuthorizationPage;
+export default Login;
