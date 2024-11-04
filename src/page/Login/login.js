@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Grid, Typography } from '@material-ui/core';
+import { TextField, Button, Grid, Typography } from '@mui/material';
 
 function Login({ setAuth }) {
   const [username, setUsername] = useState('');
