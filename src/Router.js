@@ -12,7 +12,6 @@ const AppRouter = ({ isAuthorized, setIsAuthorized, employees, addEmployee, delE
         <Route path="/" element={
           isAuthorized ? (
             <>
-             <p>Welcome!</p> {/* Приветственное сообщение */}
               <Employee />
             </>
           ) : (

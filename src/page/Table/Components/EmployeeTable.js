@@ -8,10 +8,10 @@ const MUITable = ({ employees, delEmployee }) => {
         <TableHead>
           <TableRow>
             <TableCell>Id</TableCell>
-            <TableCell>Name</TableCell>
+            <TableCell>Имя</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>Job</TableCell>
-            <TableCell>Remove</TableCell>
+            <TableCell>Должность</TableCell>
+            <TableCell>Удалить</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -23,7 +23,7 @@ const MUITable = ({ employees, delEmployee }) => {
               <TableCell>{employee.job}</TableCell>
               <TableCell>
                 <Button variant="contained" color="secondary" onClick={() => delEmployee(employee.id)}>
-                  Delete
+                  Удалить
                 </Button>
               </TableCell>
             </TableRow>

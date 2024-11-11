@@ -130,6 +130,8 @@ const darkTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          padding: '8px 16px', // Уменьшаем размер кнопки
+          marginBottom: '20px', 
           background: 'linear-gradient(45deg, #9C27B0 30%, #D5006D 90%)', // Градиент фиолетового
           border: 0,
           borderRadius: 3,

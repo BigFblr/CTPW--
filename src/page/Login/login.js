@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Grid, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { toggleAuthorization } from '../../redux/slices/slicesEmpl'; 
 
-function Login({ setAuth }) {
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-  if (username === "admin" && password === "password") {
-    setAuth(true);
-    navigate("/");
-  } else {
-    alert("Неверные данные для входа");
-  }
-};
+    if (username === "admin" && password === "password") {
+      dispatch(toggleAuthorization()); 
+      navigate("/"); 
+    } else {
+      alert("Неверные данные для входа");
+    }
+  };
 
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column" sx={{ height: '100vh' }}>

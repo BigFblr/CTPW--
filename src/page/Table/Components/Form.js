@@ -1,7 +1,12 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { Box, Button, TextField } from '@mui/material';
 
-function Form({ handleSubmit, inEmployee }) {
+const Form = ({ handleSubmit, inEmployee }) => {
   const [employee, setEmployee] = useState(inEmployee);
+
+  useEffect(() => {
+    setEmployee(inEmployee);
+  }, [inEmployee]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,44 +16,37 @@ function Form({ handleSubmit, inEmployee }) {
   const onSubmit = (e) => {
     e.preventDefault();
     handleSubmit(employee);
-    setEmployee(inEmployee);
+    setEmployee(inEmployee); // Сброс формы после отправки
   };
 
   return (
     <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1rem' }}>
+        <TextField
+          label="Имя"
           name="name"
           value={employee.name}
           onChange={handleChange}
+          variant="outlined"
         />
-      </div>
-      <div>
-        <label htmlFor="job">Job</label>
-        <input
-          type="text"
-          id="job"
+        <TextField
+          label="Должность"
           name="job"
           value={employee.job}
           onChange={handleChange}
+          variant="outlined"
         />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input 
-        type="text"
-        id="email"
-        name="email"
-        value={employee.email}
-        onChange={handleChange}
+        <TextField
+          label="Email"
+          name="email"
+          value={employee.email}
+          onChange={handleChange}
+          variant="outlined"
         />
-      </div>
-      <button type="submit">Add Employee</button>
+        <Button type="submit" variant="contained">Добавить</Button>
+      </Box>
     </form>
   );
-}
+};
 
 export default Form;
