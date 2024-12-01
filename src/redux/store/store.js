@@ -1,10 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import employeeReducer from '../slices/slicesEmpl';
+import reducerEmpl from '../reducers/reducerEmpl'; 
 
 const store = configureStore({
-  reducer: {
-    employee: employeeReducer,
-  },
+    reducer: reducerEmpl,
 });
 
 export default store;

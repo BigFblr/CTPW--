@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Grid, Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { toggleAuthorization } from '../../redux/slices/slicesEmpl'; 
+import { signIn, signError } from '../../redux/slices/slicesAut';
+import { signIn as apiSignIn } from '../../api/api';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -10,16 +12,34 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogin = (e) => {
+  const error = useSelector(state => state.auth.error); // Adjusted to match your error state
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated); // Adjusted to match your authentication state
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (username === "admin" && password === "password") {
-      dispatch(toggleAuthorization()); 
-      navigate("/"); 
-    } else {
-      alert("Неверные данные для входа");
+    try {
+      const token = await apiSignIn(username, password);
+      dispatch(signIn({ token, user: { username } }));
+    } catch (error) {
+      dispatch(signError("Неверные данные для входа")); // Adjusted error message
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      dispatch(signError(null)); // Reset error state
+    }
+  }, [error, dispatch]);
+
+  
 
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column" sx={{ height: '100vh' }}>
