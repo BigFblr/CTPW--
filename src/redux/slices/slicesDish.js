@@ -1,12 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-    getDishesByName,
-    getDishesByCost,
-    getDishNamesByMenu,
-    getAllDishes,
-    deleteDishAPI // Не забудьте импортировать deleteDishAPI
-} from "../../api/service"; // Импортируем функции для работы с API
-import { createDish as createDishApi } from "../../api/service";
+import { createDish as createDishApi, getAllDishes, deleteDishAPI } from "../../api/service"; // Импортируйте вашу функцию createDish
+
 const initialState = {
     dishes: [],
     error: null,
@@ -22,26 +16,10 @@ export const fetchAllDishes = createAsyncThunk(
     }
 );
 
-export const fetchDishesByName = createAsyncThunk(
-    'dishes/fetchByName',
-    async ({ name, token }) => {
-        const response = await getDishesByName(name, token);
-        return response;
-    }
-);
-
-export const fetchDishesByCost = createAsyncThunk(
-    'dishes/fetchByCost',
-    async ({ cost, token }) => {
-        const response = await getDishesByCost(cost, token);
-        return response;
-    }
-);
-
 export const deleteDish = createAsyncThunk(
     'dishes/delete',
     async ({ id, token }) => {
-        await deleteDishAPI(id, token); // Убедитесь, что у вас есть API для удаления блюда
+        await deleteDishAPI(id, token);
         return id; // Возвращаем id для удаления из состояния
     }
 );
@@ -49,16 +27,8 @@ export const deleteDish = createAsyncThunk(
 export const createDish = createAsyncThunk(
     'dishes/add',
     async ({ dish, token }) => {
-        const response = await createDishApi(dish, token);
-        return response;
-    }
-);
-
-export const fetchDishNamesByMenu = createAsyncThunk(
-    'dishes/fetchNamesByMenu',
-    async ({ menuId, token }) => {
-        const response = await getDishNamesByMenu(menuId, token);
-        return response;
+        const response = await createDishApi(dish, token); // Используем вашу функцию для создания блюда
+        return response; // Возвращаем созданное блюдо
     }
 );
 
@@ -85,20 +55,6 @@ const slicesDishes = createSlice({
             .addCase(fetchAllDishes.rejected, (state, action) => {
                 state.error = action.error.message; // Устанавливаем сообщение об ошибке
             })
-            .addCase(fetchDishesByName.fulfilled, (state, action) => {
-                state.dishes = action.payload;
-                state.error = null;
-            })
-            .addCase(fetchDishesByName.rejected, (state, action) => {
-                state.error = action.error.message;
-            })
-            .addCase(fetchDishesByCost.fulfilled, (state, action) => {
-                state.dishes = action.payload;
-                state.error = null;
-            })
-            .addCase(fetchDishesByCost.rejected, (state, action) => {
-                state.error = action.error.message;
-            })
             .addCase(deleteDish.fulfilled, (state, action) => {
                 state.dishes = state.dishes.filter(dish => dish.id !== action.payload);
                 state.error = null;
@@ -107,23 +63,15 @@ const slicesDishes = createSlice({
                 state.error = action.error.message;
             })
             .addCase(createDish.fulfilled, (state, action) => {
-                state.dishes.push(action.payload);
+                state.dishes.push(action.payload); // Добавляем новое блюдо в состояние
                 state.error = null;
             })
             .addCase(createDish.rejected, (state, action) => {
-                state.error = action.error.message;
-            })
-            .addCase(fetchDishNamesByMenu.fulfilled, (state, action) => {
-                state.dishes = action.payload;
-                state.error = null;
-            })
-            .addCase(fetchDishNamesByMenu.rejected, (state, action) => {
                 state.error = action.error.message;
             });
     }
 });
 
-// Используйте правильное имя для экспорта
 export const { setError, toggleTheme, toggleAuthorization } = slicesDishes.actions;
 
 export default slicesDishes.reducer;
