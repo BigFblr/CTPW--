@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Employee from "./page/Table/Employee";
+import Dish from "./page/Card/Dish"; 
 import Login from "./page/Login/login";
 import { useSelector } from 'react-redux';
 
@@ -10,12 +10,12 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} /> {/* Добавляем маршрут для страницы входа */}
         <Route path="/" element={
           isAuthorized ? (
-            <Employee />
+            <Dish /> 
           ) : (
-            <Navigate to="/login" />
+            <Navigate to="/login" /> 
           )
         } />
       </Routes>

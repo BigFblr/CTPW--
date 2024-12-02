@@ -1,36 +1,27 @@
 import "./App.css";
-import EmployeeAPI from "./api/service.js";
-import { deleteEmployee } from './redux/slices/slicesEmpl';
 import { useEffect } from "react";
 import AppRouter from "./Router";
 import { lightTheme, darkTheme } from "./theme";
 import { CssBaseline, Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { initializeEmployees, toggleTheme, toggleAuthorization } from './redux/slices/slicesEmpl';
+import {
+  fetchAllDishes,
+  toggleTheme,
+  toggleAuthorization
+} from './redux/slices/slicesDish';
 
 function App() {
   const dispatch = useDispatch();
-  const employees = useSelector(state => state.employee.employees);
-  const isAuthorized = useSelector(state => state.employee.isAuthorized);
-  const isDarkMode = useSelector(state => state.employee.isDarkMode);
+  const isAuthorized = useSelector(state => state.dishes.isAuthorized);
+  const isDarkMode = useSelector(state => state.dishes.isDarkMode);
+  const token = useSelector(state => state.auth.token); // Получаем токен из состояния auth
 
   useEffect(() => {
-    dispatch(initializeEmployees());
-  }, [dispatch]);
-
-  const delEmp = (id) => {
-    if (EmployeeAPI.delete(id)) {
-      dispatch(deleteEmployee(id));
+    if (token) {
+      dispatch(fetchAllDishes(token)); // Загружаем все блюда при инициализации компонента
     }
-  };
-
-  const addEmployee = (employee) => {
-    const newEmployee = EmployeeAPI.add(employee);
-    if (newEmployee) {
-      dispatch(addEmployee(newEmployee));
-    }
-  };
+  }, [dispatch, token]); 
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme());
@@ -53,9 +44,6 @@ function App() {
         <AppRouter 
           isAuthorized={isAuthorized} 
           setIsAuthorized={toggleAuthorization} 
-          employees={employees} 
-          addEmployee={addEmployee} 
-          delEmp={delEmp} 
         />
       </div>
     </ThemeProvider>

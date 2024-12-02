@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import reducerEmpl from '../reducers/reducerEmpl'; 
+import reducerDish from '../reducers/reducerDish'; 
 
 const store = configureStore({
-    reducer: reducerEmpl,
+    reducer: reducerDish,
 });
 
 export default store;

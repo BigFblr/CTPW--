@@ -1,80 +1,71 @@
+import axios from 'axios';
+
 const API_BASE_URL = 'http://localhost:8088';
 
 export const signIn = async (username, password) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/users/sign_in`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username , password }),
+        const response = await axios.post(`${API_BASE_URL}/users/sign_in`, {
+            username,
+            password,
         });
 
-        if (!response.ok) {
-            throw new Error('Ошибка аутентификации');
-        }
-
-        const data = await response.json();
-        return data.token;  
+        return response.data.token;  
     } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error.response?.data?.message || 'Ошибка аутентификации');
     }
 };
 
+// export const signUp = async (username, password, email) => {
+//     try {
+//         const response = await axios.post(`${API_BASE_URL}/users/sign_up`, {
+//             username,
+//             password,
+//         });
+
+//         return response.data; 
+//     } catch (error) {
+//         throw new Error(error.response?.data?.message || 'Ошибка регистрации'); 
+//     }
+// };
+
 export const fetchEmployees = async (token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/employees`, {
-            method: 'GET',
+        const response = await axios.get(`${API_BASE_URL}/employees`, {
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`, 
             },
         });
-        if (!response.ok) {
-            throw new Error('Failed to fetch employees: ' + response.statusText);
-        }
-        return await response.json(); 
+        return response.data; 
     } catch (error) {
         console.error('Error fetching employees:', error);
-        throw error;
+        throw new Error(error.response?.data?.message || 'Failed to fetch employees');
     }
 };
 
 export const addEmployee = async (token, employee) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/employees/create`, {
-            method: 'POST',
+        const response = await axios.post(`${API_BASE_URL}/employees/create`, employee, {
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify(employee),
         });
-        if (!response.ok) {
-            throw new Error('Failed to add employee: ' + response.statusText);
-        }
-        return await response.json(); 
+        return response.data; 
     } catch (error) {
         console.error('Error adding employee:', error);
-        throw error;
+        throw new Error(error.response?.data?.message || 'Failed to add employee');
     }
 };
 
 export const deleteEmployee = async (token, id) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/employees/delete/${id}`, {
-            method: 'DELETE',
+        await axios.delete(`${API_BASE_URL}/employees/delete/${id}`, {
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
         });
-        if (!response.ok) {
-            throw new Error('Failed to delete employee: ' + response.statusText);
-        }
         return true;  
     } catch (error) {
         console.error('Error deleting employee:', error);
-        throw error;
+        throw new Error(error.response?.data?.message || 'Failed to delete employee');
     }
 };
